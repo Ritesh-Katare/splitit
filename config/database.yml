@@ -25,4 +25,5 @@ test:
 
 production:
   <<: *default
+  database: split_prod
 #  database: db/production.sqlite3
