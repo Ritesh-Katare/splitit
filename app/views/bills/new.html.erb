@@ -1,0 +1,49 @@
+<head>
+</head>
+
+<h2> Bill Splitting App</h2>
+<br>
+<br>
+<h3>Add a Bill</h3>
+
+<%= form_for :bill, :url => bills_path do |f| %>
+  <p>
+    <%= f.label :event %><br>
+	<%= f.select :event, ['Lunch', 'Dinner', 'Snacks']%>
+  </p>
+
+  <p>
+    <%= f.label :date %><br>
+    <%= f.date_select :entry_date %>
+  </p>
+ 
+  <p>
+    <%= f.label :location %><br>
+    <%= f.text_field :location %>
+  </p>
+
+  <p>
+    <%= f.label :amount %><br>
+    <%= f.number_field :amount %>
+  </p>
+ 
+  <p>
+    <%= f.label :attendees %><br>
+    <%= f.check_box :bill_attendees,{:multiple => true}, "1", nil %><label>Amar</label>
+    <%= f.check_box :bill_attendees,{:multiple => true}, "2", nil %><label>Akbar</label>
+    <%= f.check_box :bill_attendees,{:multiple => true}, "3", nil %><label>Anthony</label>
+  </p>
+
+  <p>
+    <%= f.label 'Paid by' %><br>
+    <%= f.fields_for(:bill_payers) do |payer_form| %>
+      <label>Amar</label> <%= payer_form.number_field :amar %>
+      <label>Akbar</label> <%= payer_form.number_field :akbar %>
+      <label>Anthony</label> <%= payer_form.number_field :anthony %>
+    <% end %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

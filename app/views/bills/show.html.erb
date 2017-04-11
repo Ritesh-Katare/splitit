@@ -1,0 +1,50 @@
+<div class="page-header">
+  <%= link_to bills_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <h1>Bill Detail</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Event:</dt>
+  <dd><%= @bill.event %></dd>
+
+  <dt>Bill Amount:</dt>
+  <dd><%= number_to_currency(@bill.amount) %></dd>
+
+  <dt>Participants:</dt>
+  <dd><%= @bill.total_participants %></dd>
+
+  <dt>Amount per person:</dt>
+  <dd><%= number_to_currency(@bill.responsible_amount) %></dd>
+</dl>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Participant</th>
+        <th>Paid Amount</th>
+        <th>Settlement</th>
+      </tr>
+    </thead>
+    <% @bill.participants.each do |usr| %>
+        <% if (@bill.paid_by usr) > @bill.responsible_amount  %>
+          <% @string_output = "Receive #{number_to_currency( (@bill.paid_by usr) - @bill.responsible_amount )}" %>
+        <% elsif (@bill.paid_by usr) < @bill.responsible_amount  %>
+          <% @string_output = "Pay #{number_to_currency(@bill.owed_by usr)}" %>
+        <% else %>
+          <% @string_output = "Break Even" %>
+        <% end %>
+      <tr>
+        <td><%= usr.name %></td>
+        <td><%= number_to_currency(@bill.paid_by usr)%></td>
+        <td><%= @string_output %></td>
+      </tr>
+    <% end %>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>

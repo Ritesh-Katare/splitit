@@ -1,0 +1,63 @@
+<h2>Bills total : <%= number_to_currency(@bills_total) %></h2>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Participant</th>
+        <th>Amount Paid</th>
+        <th>Final Settlement</th>
+      </tr>
+    </thead>
+	<% @users.each do |usr| %>
+		<% if usr.name == "Amar"%>
+         <% @string_output = "Owe #{number_to_currency(@amar_to_akbar)} to Akbar & Owe #{number_to_currency(@amar_to_anthony)} to Anthony" %>
+        <% end %>
+		<% if usr.name == "Akbar"%>
+         <% @string_output = "Owe #{number_to_currency(@akbar_to_amar)} to Akbar & Owe #{number_to_currency(@akbar_to_anthony)} to Anthony" %>
+        <% end %>
+		<% if usr.name == "Anthony"%>
+         <% @string_output = "Owe #{number_to_currency(@anthony_to_amar)} to Akbar & Owe #{number_to_currency(@anthony_to_akbar)} to Anthony" %>
+        <% end %>
+      <tr>
+        <td><%= usr.name %></td>
+        <td><%= number_to_currency(usr.total_paid_amount)%></td>
+        <td><%= @string_output %></td>
+      </tr>
+    <% end %>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>
+
+<h2>All Bills</h2>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Bill Date</th>
+        <th>Event</th>
+        <th>Event participants</th>
+        <th></th>
+      </tr>
+    </thead>
+	<% @bills.each do |bill| %>
+      <tr>
+        <td><%= bill.created_at.to_time.strftime('%B %e at %l:%M %p') %></td>
+        <td><%= link_to "#{ bill.event }", bill_url(bill) %></td>
+        <td><% if bill.bill_attendees.present? %> 
+				<% bill.attended_users.each do |usr| %>
+					<%= usr.name %>
+				<% end %>
+			<% end %>
+		</td>
+        <td><%= button_to "delete", bill, :method => :delete %></td>
+      </tr>
+    <% end %>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>
+
+<p><%= link_to "Add a Bill", root_url %></p>
